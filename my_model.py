@@ -16,7 +16,8 @@ print(f"Using device: {device}")
 # Data loading and preprocessing
 #====================
 
-X, y = worldcup_loader(n_samples=1000, noise=0.1, random_state=42)
+X = np.load('features_norm.npy')
+y = np.load('labels_norm.npy')
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
@@ -25,9 +26,9 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 # Convert to PyTorch Tensors
 X_train_tensor = torch.FloatTensor(X_train).to(device)
-y_train_tensor = torch.FloatTensor(y_train).view(-1, 1).to(device)
+y_train_tensor = torch.FloatTensor(y_train).view(-1, 3).to(device)
 X_test_tensor = torch.FloatTensor(X_test).to(device)
-y_test_tensor = torch.FloatTensor(y_test).view(-1, 1).to(device)
+y_test_tensor = torch.FloatTensor(y_test).view(-1, 3).to(device)
 
 #====================
 #Defining the architecture of the model
@@ -70,7 +71,7 @@ print(model)
 criterion = nn.BCELoss()
 optimizer = optim.Adam(model.parameters(), lr=0.01)
 
-epochs = 100
+epochs = 1800
 losses = []
 
 for epoch in range(epochs):
@@ -109,3 +110,16 @@ if device.type == 'cuda':
 
 print(classification_report(y_test, y_pred.round()))
 #====================
+
+# ROC Curve
+
+from sklearn.metrics import roc_curve
+
+
+fpr, tpr, thresholds = roc_curve(y_test, clf.predict_proba(X_test)[:, 1])
+
+plt.plot(fpr, tpr)
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('ROC Curve')
+plt.show()
