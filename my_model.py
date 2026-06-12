@@ -113,13 +113,13 @@ print(classification_report(y_test, y_pred.round()))
 
 # ROC Curve
 
-from sklearn.metrics import roc_curve
+# from sklearn.metrics import roc_curve
 
 
-fpr, tpr, thresholds = roc_curve(y_test, clf.predict_proba(X_test)[:, 1])
+# fpr, tpr, thresholds = roc_curve(y_test, clf.predict_proba(X_test)[:, 1])
 
-plt.plot(fpr, tpr)
-plt.xlabel('False Positive Rate')
-plt.ylabel('True Positive Rate')
-plt.title('ROC Curve')
-plt.show()
+# plt.plot(fpr, tpr)
+# plt.xlabel('False Positive Rate')
+# plt.ylabel('True Positive Rate')
+# plt.title('ROC Curve')
+# plt.show()
