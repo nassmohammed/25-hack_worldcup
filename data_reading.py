@@ -16,6 +16,14 @@ for home, away, date, result in zip(matches_df['home_team_name'], matches_df['aw
     
     y.append([1, 0, 0] if result == 'home team win' else [0, 1, 0] if result == 'draw' else [0, 0, 1])
 
+features = np.array(X)
+labels = np.array(y)
+
+np.save('features.npy', features)
+np.save('labels.npy', labels)
+
+
+
     
     
     
